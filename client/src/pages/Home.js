@@ -12,7 +12,10 @@ export default function Home() {
     let final = await response.json();
     setData(final);
   };
-
+  const adder = (val) => {
+    let newData = [...data, val];
+    setData(newData);
+  };
   useEffect(() => {
     getData();
   }, []);
@@ -23,7 +26,7 @@ export default function Home() {
           <h1>Recent Posts</h1>
         </Grid.Row>
         <Grid.Row>
-          {login ? <Post></Post> : ""}
+          {login ? <Post value={adder}></Post> : ""}
           {data.map(({ tweet, user, _id }) => {
             const { date, userName } = user;
             return <Tweet value={{ date, tweet, userName }} key={_id}></Tweet>;

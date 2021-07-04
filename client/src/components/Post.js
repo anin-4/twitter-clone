@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, Grid, Form } from "semantic-ui-react";
 
-export default function Post() {
+const url = "http://localhost:4000/tweets";
+
+export default function Post({ value }) {
+  let [tweet, setTweet] = useState("");
+  let token = localStorage.getItem("token");
+  let sendToken = `Beaer ${token}`;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        tweet: tweet,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        authorization: sendToken,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => value(json));
+    setTweet("");
+  };
   return (
     <Grid.Column>
       <Card>
@@ -9,9 +31,18 @@ export default function Post() {
           <Form>
             <Form.Field>
               <label>Cuckoo</label>
-              <input type="text" placeholder="Whats on your mind..." />
+              <input
+                type="text"
+                placeholder="Whats on your mind..."
+                value={tweet}
+                onChange={(e) => {
+                  setTweet(e.target.value);
+                }}
+              />
             </Form.Field>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" onClick={handleSubmit}>
+              Submit
+            </Button>
           </Form>
         </Card.Content>
       </Card>
