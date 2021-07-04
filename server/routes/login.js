@@ -16,8 +16,17 @@ router.post("/", async (req, res) => {
     const dbpassword = isUser.password;
     const isPassword = await bcrypt.compare(password, dbpassword);
     if (isPassword) {
-      const token = jwt.sign(userName, process.env.ACCESS_TOKEN);
-      res.json({ authorization: token, login: success });
+      const Userdetails = await User.findOne({ userName: userName });
+      const token = jwt.sign(
+        {
+          id: Userdetails._id,
+          username: Userdetails.userName,
+          email: Userdetails.email,
+        },
+        process.env.ACCESS_TOKEN,
+        { expiresIn: "1h" }
+      );
+      res.json({ authorization: token });
     } else {
       res.json({ password: "error" });
     }

@@ -10,13 +10,19 @@ const verifyToken = (req, res, next) => {
     const accessToken = token.split(" ")[1];
     const verifyToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN);
     req.user = verifyToken;
-  } else res.sendStatus(403);
+  } else {
+    return res.sendStatus(403);
+  }
   next();
 };
 
 router.get("/", async (req, res) => {
   //this will show all the tweets in the data base
-  const Tweets = await tweets.find({});
+  const Tweets = await tweets.find({}).populate("user");
+  for (let tweet of Tweets) {
+    tweet.user.password = "null";
+    tweet.user.email = "null";
+  }
   res.json(Tweets);
 });
 
@@ -42,6 +48,7 @@ router.post("/", verifyToken, async (req, res) => {
 router.get("/:id", verifyToken, async (req, res) => {
   const id = req.params.id;
   const neededTWeet = await tweets.findById(id).populate("user");
+  neededTWeet.user.password = "null";
   res.json({ neededTWeet });
 });
 

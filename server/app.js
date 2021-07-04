@@ -3,6 +3,7 @@ const app = express();
 const login = require("./routes/login");
 const register = require("./routes/register");
 const tweets = require("./routes/tweets");
+const cors = require("cors");
 require("dotenv").config();
 
 //connecting to the database
@@ -29,6 +30,8 @@ mongoose.connect(
 );
 
 // middleware
+app.use(cors());
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
