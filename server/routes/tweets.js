@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
   if (token) {
     const accessToken = token.split(" ")[1];
     const verifyToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN);
-    req.user = verifyToken;
+    req.user = verifyToken.username;
   } else {
     return res.sendStatus(403);
   }
@@ -33,7 +33,7 @@ router.get("/new", verifyToken, async (req, res) => {
 router.post("/", verifyToken, async (req, res) => {
   //the tweet will be posted into the database
   const Tweet = req.body.tweet;
-  const user = await User.findOne({ userName: req.user });
+  let user = await User.findOne({ userName: req.user });
   const newtweet = new tweets({
     tweet: Tweet,
     user: user._id,
@@ -41,8 +41,11 @@ router.post("/", verifyToken, async (req, res) => {
   const savedTweet = await newtweet.save();
   await user.tweets.push(savedTweet);
   await user.save();
-
-  res.json(savedTweet);
+  let id = savedTweet._id;
+  let sendData = await tweets.findById(id).populate("user");
+  sendData.user.password = "null";
+  sendData.user.email = "null";
+  res.json(sendData);
 });
 
 router.get("/:id", verifyToken, async (req, res) => {
