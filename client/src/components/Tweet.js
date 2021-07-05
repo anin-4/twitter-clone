@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, Card, Grid, Image } from "semantic-ui-react";
+import { Button, Card, Grid, Image, Icon, Label } from "semantic-ui-react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 export default function Tweet({ value }) {
-  const { date, tweet, userName } = value;
+  const { date, tweet, userName, _id } = value;
   return (
     <Grid.Column>
       <Card>
@@ -14,18 +15,21 @@ export default function Tweet({ value }) {
             src="https://react.semantic-ui.com/images/avatar/large/molly.png"
           />
           <Card.Header>{userName}</Card.Header>
-          <Card.Meta>{moment(date).fromNow()}</Card.Meta>
+          <Card.Meta as={Link} to={`/tweets/${_id}`}>
+            {moment(date).fromNow()}
+          </Card.Meta>
           <Card.Description>{tweet}</Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <div className="ui two buttons">
-            <Button basic color="green">
-              Approve
+          <Button as="div" labelPosition="right">
+            <Button color="teal">
+              <Icon name="heart" />
+              Like
             </Button>
-            <Button basic color="red">
-              Decline
-            </Button>
-          </div>
+            <Label as="a" basic color="teal" pointing="left">
+              0
+            </Label>
+          </Button>
         </Card.Content>
       </Card>
     </Grid.Column>

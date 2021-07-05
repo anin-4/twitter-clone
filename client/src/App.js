@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { Container } from "semantic-ui-react";
+import SinglePost from "./pages/SinglePost";
 function App() {
   return (
     <Router>
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
+          <Route path="/tweets/:postID" component={SinglePost}></Route>
         </Switch>
       </Container>
     </Router>

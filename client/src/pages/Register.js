@@ -73,7 +73,7 @@ export default function Register() {
           }}
         />
       </Form.Field>
-      <Button type="submit" onClick={handleSubmit}>
+      <Button type="submit" onClick={handleSubmit} color="teal">
         Submit
       </Button>
     </Form>

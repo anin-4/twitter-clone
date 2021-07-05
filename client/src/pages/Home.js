@@ -29,7 +29,9 @@ export default function Home() {
           {login ? <Post value={adder}></Post> : ""}
           {data.map(({ tweet, user, _id }) => {
             const { date, userName } = user;
-            return <Tweet value={{ date, tweet, userName }} key={_id}></Tweet>;
+            return (
+              <Tweet value={{ date, tweet, userName, _id }} key={_id}></Tweet>
+            );
           })}
         </Grid.Row>
       </Grid>
