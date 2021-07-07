@@ -70,8 +70,15 @@ router.patch("/:id", verifyToken, async (req, res) => {
 
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
-    await tweets.findByIdAndDelete(req.params.id);
-    return res.json({ deleted: true });
+    let paramsId = req.params.id;
+    let { _id: userId } = await User.findOne({ userName: req.user });
+    let neededTweet = await tweets.findById(paramsId);
+    if (neededTweet.user._id.toString() === userId.toString()) {
+      await tweets.findByIdAndDelete(req.params.id);
+      return res.json({ deleted: true });
+    } else {
+      return res.json({ no: "no" });
+    }
   } catch (e) {
     console.log(e);
     return res.json({ deleted: false });
