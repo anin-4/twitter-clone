@@ -60,12 +60,23 @@ router.get("/:id/edit", verifyToken, async (req, res) => {
 });
 
 router.patch("/:id", verifyToken, async (req, res) => {
-  const id = req.params.id;
-  const updatedTweet = await tweets.findByIdAndUpdate(id, {
-    tweet: req.body.tweet,
-  });
-  await updatedTweet.save();
-  res.json(updatedTweet);
+  try {
+    const paramsId = req.params.id;
+    let { _id: userId } = await User.findOne({ userName: req.user });
+    let neededTweet = await tweets.findById(paramsId);
+    if (neededTweet.user._id.toString() === userId.toString()) {
+      const updatedTweet = await tweets.findByIdAndUpdate(paramsId, {
+        tweet: req.body.tweet,
+      });
+      await updatedTweet.save();
+      return res.json(updatedTweet);
+    } else {
+      return res.sendStatus(403);
+    }
+  } catch (e) {
+    console.log(e);
+    return res.json({ edit: false });
+  }
 });
 
 router.delete("/:id", verifyToken, async (req, res) => {
@@ -77,7 +88,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
       await tweets.findByIdAndDelete(req.params.id);
       return res.json({ deleted: true });
     } else {
-      return res.json({ no: "no" });
+      return res.sendStatus(403);
     }
   } catch (e) {
     console.log(e);
