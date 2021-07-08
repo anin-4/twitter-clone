@@ -53,7 +53,11 @@ export default function SinglePost(props) {
               0
             </Label>
           </Button>
-          {data._id == loggedIn.id ? <DeleteButton></DeleteButton> : ""}
+          {data._id == loggedIn.id ? (
+            <DeleteButton value={postId}></DeleteButton>
+          ) : (
+            ""
+          )}
         </Card.Content>
       </Card>
     </Container>
