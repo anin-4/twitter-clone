@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { Container } from "semantic-ui-react";
 import SinglePost from "./pages/SinglePost";
+import Edit from "./pages/Edit";
 function App() {
   return (
     <Router>
@@ -23,7 +24,8 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/tweets/:postID" component={SinglePost}></Route>
+          <Route path="/tweets/:postID" component={SinglePost} exact></Route>
+          <Route path="/tweets/:postID/edit" component={Edit} exact></Route>
         </Switch>
       </Container>
     </Router>

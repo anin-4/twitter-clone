@@ -4,6 +4,7 @@ import moment from "moment";
 import "../App.css";
 import { useGlobalContext } from "../context";
 import DeleteButton from "../components/DeleteButton";
+import EditButton from "../components/EditButton";
 
 export default function SinglePost(props) {
   let postId = props.match.params.postID;
@@ -53,6 +54,11 @@ export default function SinglePost(props) {
               0
             </Label>
           </Button>
+          {data._id == loggedIn.id ? (
+            <EditButton value={postId}></EditButton>
+          ) : (
+            ""
+          )}
           {data._id == loggedIn.id ? (
             <DeleteButton value={postId}></DeleteButton>
           ) : (
