@@ -10,19 +10,24 @@ export default function Post({ value }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        tweet: tweet,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        authorization: sendToken,
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => value(json));
-    setTweet("");
+    if (tweet === "") {
+      alert("Tweet cannot be empty!");
+      return;
+    } else {
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          tweet: tweet,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          authorization: sendToken,
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => value(json));
+      setTweet("");
+    }
   };
   return (
     <Grid.Column>

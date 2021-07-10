@@ -10,10 +10,11 @@ export default function Home() {
   const getData = async () => {
     let response = await fetch(url);
     let final = await response.json();
+    final.reverse();
     setData(final);
   };
   const adder = (val) => {
-    let newData = [...data, val];
+    let newData = [val, ...data];
     setData(newData);
   };
   useEffect(() => {
