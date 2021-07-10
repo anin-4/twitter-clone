@@ -27,7 +27,7 @@ export default function Tweet({ value }) {
               Like
             </Button>
             <Label as="a" basic color="teal" pointing="left">
-              0
+              feature coming soon..
             </Label>
           </Button>
         </Card.Content>

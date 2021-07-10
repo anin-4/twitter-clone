@@ -51,7 +51,7 @@ export default function SinglePost(props) {
               Like
             </Button>
             <Label as="a" basic color="teal" pointing="left">
-              0
+              feature coming soon..
             </Label>
           </Button>
           {data._id == loggedIn.id ? (
